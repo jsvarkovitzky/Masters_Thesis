@@ -115,7 +115,7 @@ c     # Specify a wave entering the domain given by profile stored
 c     # in common block:
 
       t = time
-      if (t.ge.10d0) then
+      if (t.ge.100d0) then
 c     # # switch to nonreflecting BC after wave has entered:
          go to 110
       endif
