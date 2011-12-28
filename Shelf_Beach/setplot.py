@@ -7,7 +7,7 @@ function setplot is called to set the plot parameters.
     
 """ 
 import os
-from analytical_solution_landslide import analytical_sol
+#from analytical_solution_landslide import analytical_sol
 from errorCalc import errorValue
 from numpy import linspace
 slope = 1. / 19.85
@@ -103,18 +103,18 @@ def setplot(plotdata):
     plotitem.outdir = outdir
 
    # Analytic Solution
-    def plot_analytic(current_data):
-        import pylab 
+#    def plot_analytic(current_data):
+#        import pylab 
        
-        N = 2000                           # number of cells
-        X = linspace(-1000.,1000.,N+1)     # vertices of cells
-        t = current_data.t
-        (u,h,w,z,mom) = analytical_sol(X,t)     
-        #pylab.plot(X,w,'r--')
-        #pylab.legend(['Topography', 'GeoClaw Solution', 'Analytic Solution'], loc='upper left')
-        #Compute Error of Solution
-
-    plotaxes.afteraxes = plot_analytic
+#        N = 2000                           # number of cells
+#        X = linspace(-1000.,1000.,N+1)     # vertices of cells
+#        t = current_data.t
+#        (u,h,w,z,mom) = analytical_sol(X,t)     
+#        #pylab.plot(X,w,'r--')
+#        #pylab.legend(['Topography', 'GeoClaw Solution', 'Analytic Solution'], loc='upper left')
+#        #Compute Error of Solution
+#
+#    plotaxes.afteraxes = plot_analytic
  
 
     

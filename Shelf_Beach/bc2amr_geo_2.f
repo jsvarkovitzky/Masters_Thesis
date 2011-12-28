@@ -120,24 +120,86 @@ c     #***# switch to nonreflecting BC after wave has entered:
          go to 110
       endif
 
-c     ########################
-c     #Incoming Gaussian Wave#
-c     ########################
 
+c     # values in ghost cell at x = -epsilon  should
+c     # be set to values at point x=0 at time t + epsilon / speed
+c     # where speed = sqrt(gh) is the wave speed.
+c     # Use undisturbed state h0 = 10.0 cm.
+
+      h0 = 0.0d0
       grav = 9.81d0  !# should fix to use value in module!
+      speed = dsqrt(grav*h0)
+      eta1 = 0.d0             ! depth of water at rest in the wavetank
+      t1 = t + 0.5d0*hx / speed  ! ghost cell adjecent to boundary
+      t2 = t + 1.5d0*hx / speed  ! next ghost cell away from boundary
       ibeg = max0(nrow-nxr+1, 1)
 
       do i=ibeg,nrow
           do j=1,ncol
-             aux(i,j,1) = aux(ibeg-1 ,j,1)
-             val(i,j,1) = 100.d0*dexp(-(t-10)**2/10)!+val(1,j,1)
-             val(i,j,2) = -val(1,j,2)+sqrt(grav*val(1,j,1)) 
-             val(i,j,3) = -val(1,j,3)
+              aux(i,j,1) = aux(1,j,1)
+              val(i,j,1) = 1*exp(-(t-10)**2/10)!+val(1,j,1)
+              val(i,j,2) = sqrt(grav*val(i,j,1)+4000) !val(1,j,2) 
+              val(i,j,3) = 0.d0 !val(1,j,3)
           enddo
       enddo
       go to 199
 
 
+ 101  continue
+c     write(46,*) 't1 = ',t1,'   it  = ',it,'  eta1 = ',eta1
+c     write(46,*) '  profiles: ',profile(it,2),profile(it+1,2)
+c     write(46,*) '  etaslopes: ',etaslope1,etaslope2
+c     write(46,*) 't2 = ',t2,'   it2 = ',it2,'  eta1 = ',eta2
+      
+ 
+
+c     # Riemann invariant for right-going wave:
+c     # u - 2*sqrt(gh) is constant with value rinvar given by undisturbed
+c     # state with depth h0 and zero velocity:
+      rinvar=-2.0d0*sqrt(grav*h0)
+
+      do 105 j=1,ncol
+c        # depth h = eta - B:
+c         h1 = eta1 - aux(nxl+1,j,1)
+c         u1 = sqrt(h1*grav)
+c         u2 = sqrt(h2*grav)
+c        # velocity found using Riemann invariant: 
+c        #   u - 2*sqrt(gh) = rinvar:           
+         u1 = 2.d0*sqrt(grav*h1)+rinvar
+         
+         if (nxl == 1) then
+c            # only one ghost cell:
+             aux(1,j,1) = aux(nxl+1,j,1)  
+             val(1,j,1) = h1
+             val(1,j,2) = h1*u1
+             val(1,j,3) = 0.d0
+          else
+c            # two ghost cells:
+             aux(2,j,1) = aux(nxl+1,j,1)  
+             val(2,j,1) = h1
+             val(2,j,2) = h1*u1
+             val(2,j,3) = 0.d0
+             
+c             h2 = eta1 - aux(nxl+1,j,1)     
+             u2 = 2.d0*sqrt(grav*h2)+rinvar
+
+             aux(1,j,1) = aux(nxl+1,j,1)              
+             val(1,j,1) = h2
+             val(1,j,2) = h2*u2
+             val(1,j,3) = 0.d0
+          endif
+c          print *, "val(1,j,1): ", val(1,j,1) , "val(1,j,2): "
+c     &     , val(1,j,2)
+c          print *, "h1 ", h1 , "h2 ", h2
+c          print *, "eta1 ", eta1 , "aux(nxl+1,j,1) ", aux(nxl+1,j,1)
+ 105    continue
+c     write(47,*) t1,val(1,2,1),val(1,2,2)
+c     write(48,*) t1,val(2,2,1),val(2,2,2)
+      
+      
+      go to 199
+c
+c
   110 continue
 c     # zero-order extrapolation:
       do 115 m=1,meqn
