@@ -85,7 +85,7 @@ def setplot(plotdata):
     plotaxes = plotfigure.new_plotaxes('line')
     plotaxes.title = 'Surface'
     plotaxes.xlimits = 'auto'
-    plotaxes.ylimits = [-4100,4100]
+    plotaxes.ylimits = [-10,20]
    
     # Topography
     plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
@@ -101,6 +101,50 @@ def setplot(plotdata):
     plotitem.plotstyle = '-'
     plotitem.kwargs = {'linewidth':2}
     plotitem.outdir = outdir
+
+
+    #-----------------------------------------
+    # Figure for zoom plot
+    #-----------------------------------------
+    plotfigure = plotdata.new_plotfigure(name='line_zoom', figno=10)
+    #plotfigure.show = False
+
+    def eta_slice(current_data):
+        x = current_data.x[:,0]
+        q = current_data.q
+        eta = q[:,0,3]
+        return x,eta
+
+    def B_slice(current_data):
+        x = current_data.x[:,0]
+        q = current_data.q
+        h = q[:,0,0]
+        eta = q[:,0,3]
+        B = eta - h
+        return x,B
+
+    # Set up for axes in this figure:
+    plotaxes = plotfigure.new_plotaxes('line')
+    plotaxes.title = 'Surface Zoom'
+    plotaxes.xlimits = [417500,418500]
+    plotaxes.ylimits = [-10,20]
+   
+    # Topography
+    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
+    plotitem.map_2d_to_1d = B_slice
+    plotitem.color = 'g'
+    plotitem.kwargs = {'linewidth':2}
+    plotitem.outdir = outdir
+    
+    # Water
+    plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')
+    plotitem.map_2d_to_1d = eta_slice
+    plotitem.color = 'b'
+    plotitem.plotstyle = '-'
+    plotitem.kwargs = {'linewidth':2}
+    plotitem.outdir = outdir
+
+
 
    # Analytic Solution
 #    def plot_analytic(current_data):

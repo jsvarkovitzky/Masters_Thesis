@@ -60,7 +60,7 @@ def setrun(claw_pkg='geoclaw'):
     clawdata.xlower = 0.
     clawdata.xupper = 420000.
     # Number of grid cells:
-    clawdata.mx =  1000
+    clawdata.mx =  500
     clawdata.my =  2
     
     dx = (clawdata.xupper - clawdata.xlower) / clawdata.mx
@@ -102,8 +102,8 @@ def setrun(claw_pkg='geoclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 10
-        clawdata.tfinal = clawdata.t0 + 20
+        clawdata.nout = 100
+        clawdata.tfinal = clawdata.t0 + 20000
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.  

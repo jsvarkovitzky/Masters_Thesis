@@ -127,11 +127,19 @@ c     ########################
       grav = 9.81d0  !# should fix to use value in module!
       ibeg = max0(nrow-nxr+1, 1)
 
-      do i=ibeg,nrow
+c      do i=ibeg,nrow
+c          do j=1,ncol
+c             aux(i,j,1) = aux(ibeg-1 ,j,1)
+c             val(i,j,1) = 100.d0*dexp(-(t-10)**2/10)!+val(1,j,1)
+c             val(i,j,2) = sqrt(grav*val(1,j,1)) 
+c             val(i,j,3) = -val(1,j,3)
+c          enddo
+c      enddo
+      do i=1,nxl
           do j=1,ncol
              aux(i,j,1) = aux(ibeg-1 ,j,1)
-             val(i,j,1) = 100.d0*dexp(-(t-10)**2/10)!+val(1,j,1)
-             val(i,j,2) = -val(1,j,2)+sqrt(grav*val(1,j,1)) 
+             val(i,j,1) = 1.d0*dexp(-(t-10)**2/10000)!+val(1,j,1)
+             val(i,j,2) = sqrt(grav*val(1,j,1)) 
              val(i,j,3) = -val(1,j,3)
           enddo
       enddo
