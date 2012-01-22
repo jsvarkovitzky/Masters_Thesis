@@ -102,8 +102,8 @@ def setrun(claw_pkg='geoclaw'):
 
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
-        clawdata.nout = 100
-        clawdata.tfinal = clawdata.t0 + 17000
+        clawdata.nout = 10
+        clawdata.tfinal = clawdata.t0 + 100
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.  
@@ -192,7 +192,7 @@ def setrun(claw_pkg='geoclaw'):
     #   2 => periodic (must specify this at both boundaries)
     #   3 => solid wall for systems where q(2) is normal velocity
     
-    clawdata.mthbc_xlower = 0
+    clawdata.mthbc_xlower = 1
     clawdata.mthbc_xupper = 3
     
     clawdata.mthbc_ylower = 3

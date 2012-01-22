@@ -24,8 +24,8 @@ c      # been strored in qinitwork.
        do i=1-mbc,mx+mbc
           x = xlower + (i-0.5d0)*dx
           do j=1-mbc,my+mbc
-             q(i,j,1) = dexp(-(x-mu)**2/sigma**2)-aux(i,j,1) 
-             q(i,j,2) = dsqrt(9.8*dsqrt((q(i,j,1)+aux(i,j,1))**2))
+             q(i,j,1) = 2*dexp(-(x-mu)**2/sigma**2)-aux(i,j,1) 
+             q(i,j,2) = 0.0d0
              q(i,j,3) = 0.0d0
              enddo
           enddo
