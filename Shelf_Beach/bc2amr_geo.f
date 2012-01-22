@@ -115,7 +115,7 @@ c     # Specify a wave entering the domain given by profile stored
 c     # in common block:
 
       t = time
-      if (t.ge.100d0) then
+      if (t.ge.1000d0) then
 c     #***# switch to nonreflecting BC after wave has entered:
          go to 110
       endif
@@ -127,18 +127,13 @@ c     ########################
       grav = 9.81d0  !# should fix to use value in module!
       ibeg = max0(nrow-nxr+1, 1)
 
-c      do i=ibeg,nrow
-c          do j=1,ncol
-c             aux(i,j,1) = aux(ibeg-1 ,j,1)
-c             val(i,j,1) = 100.d0*dexp(-(t-10)**2/10)!+val(1,j,1)
-c             val(i,j,2) = sqrt(grav*val(1,j,1)) 
-c             val(i,j,3) = -val(1,j,3)
-c          enddo
-c      enddo
       do i=1,nxl
           do j=1,ncol
+             v = sqrt(9.8*dexp(-(t-10)**2/10000))
+             dx = hx/nrow
              aux(i,j,1) = aux(ibeg-1 ,j,1)
-             val(i,j,1) = 1.d0*dexp(-(t-10)**2/10000)!+val(1,j,1)
+             val(i,j,1) = 1.d0*dexp(-(t-(nxl-j)*dx/v-10)**2/10000)!+val(1,j,1)
+c             val(i,j,1) = 1.d0*dexp(-(t-10)**2/10000)!+val(1,j,1)
              val(i,j,2) = sqrt(grav*val(1,j,1)) 
              val(i,j,3) = -val(1,j,3)
           enddo

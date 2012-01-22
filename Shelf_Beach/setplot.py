@@ -85,7 +85,7 @@ def setplot(plotdata):
     plotaxes = plotfigure.new_plotaxes('line')
     plotaxes.title = 'Surface'
     plotaxes.xlimits = 'auto'
-    plotaxes.ylimits = [-10,20]
+    plotaxes.ylimits = [-1,5]
    
     # Topography
     plotitem = plotaxes.new_plotitem(plot_type='1d_from_2d_data')

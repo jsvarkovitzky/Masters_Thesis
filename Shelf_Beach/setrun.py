@@ -60,7 +60,7 @@ def setrun(claw_pkg='geoclaw'):
     clawdata.xlower = 0.
     clawdata.xupper = 420000.
     # Number of grid cells:
-    clawdata.mx =  500
+    clawdata.mx =  1000
     clawdata.my =  2
     
     dx = (clawdata.xupper - clawdata.xlower) / clawdata.mx
@@ -103,7 +103,7 @@ def setrun(claw_pkg='geoclaw'):
     if clawdata.outstyle==1:
         # Output nout frames at equally spaced times up to tfinal:
         clawdata.nout = 100
-        clawdata.tfinal = clawdata.t0 + 20000
+        clawdata.tfinal = clawdata.t0 + 17000
 
     elif clawdata.outstyle == 2:
         # Specify a list of output times.  
@@ -205,12 +205,12 @@ def setrun(claw_pkg='geoclaw'):
 
 
     # max number of refinement levels:
-    mxnest = 1
+    mxnest = 3
 
     clawdata.mxnest = -mxnest   # negative ==> anisotropic refinement in x,y,t
 
     # List of refinement ratios at each level (length at least mxnest-1)
-    clawdata.inratx = [4,2,4]
+    clawdata.inratx = [2,2,2]
     clawdata.inraty = [2,2,2]
 
     clawdata.inratt = [1,1,1]   
